@@ -1,0 +1,968 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="icon" href="~/Content/green-dot.png" type="image/png">
+    @*<style type="text/css">
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/chat.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="load"></div>
+    <div class="scroll" id="msgHistory" style="display:none;position:absolute;left:5%;max-height:80%;min-height:80%;width:90%;top:10%;z-index:999;background-color:lightblue;box-shadow:5px 5px 5px 0px rgba(0,0,0,0.75);border-radius: 10px;padding:10px;border-left:2px solid gray;border-top:1px solid gray;overflow:scroll">
+        <a  onclick="clearHistory()">Clear History</a>
+        <ul id="msgHistoryList"></ul>
+    </div>
+    @*<div class="container">
+        <input type="text" id="message" />
+        <input type="hidden" id="reciever" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <input type="hidden" id="id" />
+        <ul id="discussion"></ul>
+
+        <ul id="UsersOnline"></ul>
+        <ul data-bind="foreach:usersOnline">
+            <li data-bind="text:$data.machineName.split('\\')[1]"></li>
+        </ul>
+    </div>*@
+    <div id="main">
+
+        <div class="main-top"></div>
+            <div class="cntnt">
+                <div id="scroll" class="cntnt-left">
+                    
+                    <a id="viewHistory" onclick="getHistory()">View History</a>
+                    <ul id="UsersOnline" data-bind="foreach:usersOnline">
+                        <li data-bind="text:$data.machineName.split('\\')[1]"></li>
+                    </ul>
+                    
+                </div>
+                <div class="cntnt-right">
+                    @*<ul class="nav nav-tabs">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#smile">Smileys</a></li>
+                        <li><a href="#">Menu 2</a></li>
+                        <li><a href="#">Menu 3</a></li>
+                    </ul>*@
+                    
+                    <div id="smileys" style="height:20%;top:72%;position:absolute;overflow-y:scroll;left:2%;display:none;">
+                        
+                        <div id="smile" class="scroll" style="height:100%;overflow-y:scroll;left:2%;">
+                            
+
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-001 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-002 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-003 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-004 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-005 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-006 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-007 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-008 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-009 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-010 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-011 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-012 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-013 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-014 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-015 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-016 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-017 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-018 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-019 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-020 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-021 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-022 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-023 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-024 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-025 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-026 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-027 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-028 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-029 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-030 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-031 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-032 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-033 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-034 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-035 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-036 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-037 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-038 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-039 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-040 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-041 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-042 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-043 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-044 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-045 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-046 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-047 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-048 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-049 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-050 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-051 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-052 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-053 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-054 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-055 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-056 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-057 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-058 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-059 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-060 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-061 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-062 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-063 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-064 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-065 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-066 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-067 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-068 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-069 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-070 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-071 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-072 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-073 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-074 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-075 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-076 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-077 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-078 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-079 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-080 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-081 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-082 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-083 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-084 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-085 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-086 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-087 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-088 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-089 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-090 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-091 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-092 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-093 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-094 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-095 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-096 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-097 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-098 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-099 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-100 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-101 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-102 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-103 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-104 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-105 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-106 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-107 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-108 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-109 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-110 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-111 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-112 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-113 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-114 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-115 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-116 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-117 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-118 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-119 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-120 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-121 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-122 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-123 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-124 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-125 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-126 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-127 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-128 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-129 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-130 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-131 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-132 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-133 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-134 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-135 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-136 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-137 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-138 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-139 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-140 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-141 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-142 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-143 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-144 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-145 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-146 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-147 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-148 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-149 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-150 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-151 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-152 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-153 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-154 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-155 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-156 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-157 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-158 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-159 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-160 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-161 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-162 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-163 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-164 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-165 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-166 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-167 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-168 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-169 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-170 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-171 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-172 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-173 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-174 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-175 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-176 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-177 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-178 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-179 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-180 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-181 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-182 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-183 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-184 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-185 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-186 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-187 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-188 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Smiley-189 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-01 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-02 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-03 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-04 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-05 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-06 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-07 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-08 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-09 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-10 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-11 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-12 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-13 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-14 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-15 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-16 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-17 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-18 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-19 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-20 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-21 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-22 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-23 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-24 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-25 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-26 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-27 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-28 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-29 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-30 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-31 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-32 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-33 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-34 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-35 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-36 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-37 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-38 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-39 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-40 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-41 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-42 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-43 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-44 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-45 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-46 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-47 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-48 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-49 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-50 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-51 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-52 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-53 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-54 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-55 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-56 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-57 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-58 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-59 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-60 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-61 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-62 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-63 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-64 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-65 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-66 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-67 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-68 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-69 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-70 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-71 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-72 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-73 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-74 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-75 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-76 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-77 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-78 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-79 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-80 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-81 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-82 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-83 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-84 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-85 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-86 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-87 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-88 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-89 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-90 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-91 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-92 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-93 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-94 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-95 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-96 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-97 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-98 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-99 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-100 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-101 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-102 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-103 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-104 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-105 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-106 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-107 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-108 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-109 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-110 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-111 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-112 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-113 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-114 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-115 (Copy).png" /></span>
+                            <span class="image"><img class="small" src="~/Content/Emoji Natur-116 (Copy).png" /></span>
+                                                    
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-01 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-02 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-03 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-04 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-05 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-06 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-07 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-08 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-09 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-10 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-11 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-12 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-13 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-14 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-15 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-16 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-17 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-18 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-19 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-20 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-21 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-22 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-23 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-24 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-25 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-26 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-27 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-28 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-29 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-30 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-31 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-32 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-33 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-34 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-35 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-36 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-37 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-38 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-39 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-40 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-41 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-42 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-43 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-44 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-45 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-46 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-47 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-48 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-49 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-50 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-51 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-52 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-53 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-54 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-55 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-56 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-57 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-58 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-59 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-60 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-61 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-62 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-63 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-64 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-65 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-66 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-67 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-68 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-69 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-70 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-71 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-72 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-73 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-74 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-75 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-76 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-77 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-78 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-79 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-80 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-81 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-82 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-83 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-84 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-85 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-86 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-87 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-88 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-89 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-90 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-91 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-92 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-93 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-94 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-95 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-96 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-97 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-98 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-99 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-100 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-101 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-102 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-103 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-104 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-105 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-106 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-107 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-108 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-109 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-110 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-111 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-112 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-113 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-114 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-115 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-116 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-117 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-118 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-119 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-120 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-121 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-122 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-123 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-124 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-125 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-126 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-127 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-128 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-129 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-130 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-131 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-132 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-133 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-134 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-135 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-136 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-137 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-138 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-139 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-140 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-141 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-142 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-143 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-144 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-145 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-146 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-147 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-148 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-149 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-150 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-151 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-152 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-153 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-154 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-155 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-156 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-157 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-158 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-159 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-160 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-161 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-162 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-163 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-164 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-165 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-166 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-167 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-168 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-169 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-170 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-171 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-172 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-173 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-174 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-175 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-176 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-177 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-178 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-179 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-180 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-181 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-182 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-183 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-184 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-185 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-186 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-187 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-188 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-189 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-190 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-191 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-192 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-193 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-194 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-195 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-196 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-197 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-198 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-199 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-200 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-201 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-202 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-203 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-204 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-205 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-206 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-207 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-208 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-209 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-210 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-211 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-212 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-213 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-214 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-215 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-216 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-217 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-218 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-219 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-220 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-221 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-222 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-223 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-224 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-225 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-226 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-227 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-228 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-229 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Objects-230 (Copy).png" /> </span>
+                                                    
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-01 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-02 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-03 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-04 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-05 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-06 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-07 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-08 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-09 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-10 (Copy).png" />  </span>
+                                                      
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-11 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-12 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-13 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-14 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-15 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-16 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-17 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-18 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-19 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-20 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-21 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-22 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-23 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-24 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-25 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-26 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-27 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-28 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-29 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-30 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-31 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-32 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-33 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-34 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-35 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-36 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-37 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-38 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-39 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-40 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-41 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-42 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-43 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-44 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-45 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-46 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-47 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-48 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-49 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-50 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-51 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-52 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-53 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-54 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-55 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-56 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-57 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-58 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-59 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-60 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-61 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-62 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-63 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-64 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-65 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-66 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-67 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-68 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-69 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-70 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-71 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-72 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-73 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-74 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-75 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-76 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-77 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-78 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-79 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-80 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-81 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-82 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-83 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-84 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-85 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-86 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-87 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-88 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-89 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-90 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-91 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-92 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-93 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-94 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-95 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-96 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-97 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-98 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-99 (Copy).png" />  </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-100 (Copy).png" /> </span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Orte-101 (Copy).png" /> </span>
+                                                     
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-01 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-02 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-03 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-04 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-05 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-06 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-07 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-08 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-09 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-10 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-11 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-12 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-13 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-14 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-15 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-16 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-17 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-18 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-19 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-20 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-21 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-22 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-23 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-24 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-25 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-26 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-27 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-28 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-29 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-30 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-31 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-32 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-33 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-34 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-35 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-36 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-37 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-38 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-39 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-40 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-41 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-42 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-43 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-44 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-45 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-46 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-47 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-48 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-49 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-50 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-51 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-52 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-53 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-54 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-55 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-56 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-57 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-58 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-59 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-60 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-61 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-62 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-63 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-64 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-65 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-66 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-67 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-68 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-69 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-70 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-71 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-72 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-73 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-74 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-75 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-76 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-77 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-78 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-79 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-80 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-81 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-82 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-83 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-84 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-85 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-86 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-87 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-88 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-89 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-90 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-91 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-92 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-93 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-94 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-95 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-96 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-97 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-98 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-99 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-100 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-101 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-102 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-103 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-104 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-105 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-106 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-107 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-108 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-109 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-110 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-111 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-112 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-113 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-114 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-115 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-116 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-117 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-118 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-119 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-120 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-121 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-122 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-123 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-124 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-125 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-126 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-127 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-128 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-129 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-130 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-131 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-132 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-133 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-134 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-135 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-136 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-137 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-138 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-139 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-140 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-141 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-142 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-143 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-144 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-145 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-146 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-147 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-148 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-149 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-150 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-151 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-152 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-153 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-154 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-155 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-156 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-157 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-158 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-159 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-160 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-161 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-162 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-163 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-164 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-165 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-166 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-167 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-168 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-169 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-170 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-171 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-172 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-173 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-174 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-175 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-176 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-177 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-178 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-179 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-180 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-181 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-182 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-183 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-184 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-185 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-186 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-187 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-188 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-189 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-190 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-191 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-192 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-193 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-194 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-195 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-196 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-197 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-198 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-199 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-200 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-201 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-202 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-203 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-204 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-205 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-206 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-207 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-208 (Copy).png" /></span>
+                            <span class='image'><img class="small" src="~/Content/Emoji Symbols-209 (Copy).png" /></span>
+                        </div>
+
+
+                    </div>
+                    
+                    <div contenteditable="true" type="textarea" id="message" style="left:2%;top:92%;position:absolute;width:75%;height:35px;line-height:35px;background-color:white">
+
+                    </div>
+                    <div style="left:78%;z-index:9999;top:92%;position:absolute">
+                        <form style="z-index:9999;top:92%;" class="image-upload" name="addProductForm" id="addProductForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                            <input style="width:100%" class="btn btn-default" type="file" name="file" id="file" />
+                            <label for="file">
+                                <img style="width:25px;height:25px;" src="~/Content/Image-upload_icon.png" />
+                            </label>
+                        </form>
+                    </div>
+                    
+               <img src="~/Content/add.png" class="small" id="emoticons" style="left:82%;width:2.5%;height:35px;position:absolute;top:92%;" />
+                    <img src="~/Content/music-on.png"  class="small" id="music" style="left:87%;width:2.5%;height:35px;position:absolute;top:92%;" />
+                    
+                    <input type="hidden" id="reciever" />
+                    <input class="btn btn-default" type="button" id="sendmessage" value="Send" style="left:91%;top:92%;position:absolute;height:35px"  />
+                    <input type="hidden" id="displayname" />
+                    <input type="hidden" id="id" />
+                    <div class="scroll" id="messageList" style="top:0;height:90%;overflow-y:scroll;overflow-wrap:break-word;position:absolute;width:100%">
+                        <ul id="discussion"></ul>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="main-bot"></div>
+
+        @*@using (Html.BeginForm("Index",
+                            "Home",
+                            FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+        {
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" id="file" /><br><br>
+            <input type="submit" value="Upload Image" />
+            <br><br>
+            @ViewBag.Message
+        }*@
+       
+        @*<input type="file" name="file" id="file" /><br><br>
+        <input type="button" id="submit" value="Upload Image" />*@ 
+    </div>
+
+
+    <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/knockout-3.4.0.js"></script>
+    <script src="~/Scripts/underscore-min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.0.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/chat.js"></script>
+    @*<script src="~/Scripts/upload.js"></script>*@
+</body>
+</html>
